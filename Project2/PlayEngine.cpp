@@ -1,25 +1,31 @@
 #include "PlayEngine.h"
 
 PlayEngine::PlayEngine(SFML_AssetManager* assetPtr)
-    : level(10, 10), assets(assetPtr), moves(0) {
+    : level(15, 15), assets(assetPtr), moves(0) {
 
-    // Mag-loop para lagyan ng pader (ID 1) ang paligid ng 10x10 grid
-    for (int i = 0; i < 10; i++) {
+    // Mag-loop para lagyan ng pader (ID 1) ang paligid ng 15x15 grid
+    for (int i = 0; i < 15; i++) {
         level.setTile(i, 0, 1);    // Taas
-        level.setTile(i, 9, 1);    // Ibaba
+        level.setTile(i, 14, 1);    // Ibaba
         level.setTile(0, i, 1);    // Kaliwa
-        level.setTile(9, i, 1);    // Kanang
+        level.setTile(14, i, 1);    // Kanang
         
 
     }
     //  mga pader sa loob para sa puzzle layout
+    // level.setTile(x,y,1)
+	// x - horizontal, y - vertical
     level.setTile(4, 4, 3);
-    //level.setTile(3, 3, 1);
-    //level.setTile(3, 4, 1);
-   //level.setTile(3, 5, 1);
-   // level.setTile(6, 6, 1);
-   // level.setTile(6, 7, 1);
-   // level.setTile(3, 9, 1);
+    level.setTile(3, 3, 1);
+    level.setTile(3, 4, 1);
+    level.setTile(11, 13, 1);
+    level.setTile(7, 9, 1);
+	level.setTile(8, 9, 1);
+	level.setTile(9, 9, 1);
+    level.setTile(6, 9, 1);
+    level.setTile(5, 8, 1);
+    level.setTile(4, 8, 1);
+    level.setTile(6, 3, 1);
 
     playerX = 1;
     playerY = 1;
@@ -68,14 +74,14 @@ void PlayEngine::handleInput(const sf::Event& event) {
 }
 
 void PlayEngine::draw(sf::RenderWindow& window) {
-    // 1. Kunin ang texture mula sa manager
+    //  Kunin ang texture mula sa manager
     sf::Sprite wallSprite(assets->getTexture("wall"));
 
-    // 2.  64x64 pixels ang brick
+    //  64x64 pixels ang brick
     sf::Vector2u size = assets->getTexture("wall").getSize();
     wallSprite.setScale({ 64.0f / size.x, 64.0f / size.y });
 
-    // 3. loop ng buong grid
+    //  loop ng buong grid
     for (int y = 0; y < level.getHeight(); y++) {
         for (int x = 0; x < level.getWidth(); x++) {
 

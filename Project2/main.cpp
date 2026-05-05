@@ -4,7 +4,7 @@
 
 int main() {
     // SFML 3: Ang VideoMode ay gumagamit na ng Vector2u sa loob ng curly braces
-    sf::RenderWindow window(sf::VideoMode({ 640, 640 }), "Sokoban Engine");
+    sf::RenderWindow window(sf::VideoMode({ 960, 960 }), "Sokoban Engine");
     window.setFramerateLimit(60);
 
     SFML_AssetManager assets;
