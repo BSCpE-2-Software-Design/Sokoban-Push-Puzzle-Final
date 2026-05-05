@@ -18,8 +18,15 @@ int main() {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
-            // I-pass ang event sa engine (siguraduhing updated ang PlayEngine.h)
-            game.handleInput(*event);
+            
+            if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
+                if (keyPressed->code == sf::Keyboard::Key::W) game.processMove(0, -1);
+                if (keyPressed->code == sf::Keyboard::Key::S) game.processMove(0, 1);
+                if (keyPressed->code == sf::Keyboard::Key::A) game.processMove(-1, 0);
+                if (keyPressed->code == sf::Keyboard::Key::D) game.processMove(1, 0);
+            }
+            
+            
         }
 
         window.clear();

@@ -60,6 +60,7 @@ void PlayEngine::processMove(int dx, int dy) {
     playerX = nextX;
     playerY = nextY;
     level.setTile(playerX, playerY, 2); 
+    moves++;
 }
 // Function para sa Keyboard Inputs
 
