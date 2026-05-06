@@ -18,14 +18,37 @@ PlayEngine::PlayEngine(SFML_AssetManager* assetPtr)
     level.setTile(4, 4, 3);
     level.setTile(3, 3, 1);
     level.setTile(3, 4, 1);
+    level.setTile(3, 5, 1);
+    level.setTile(3, 6, 1);
+    level.setTile(3, 7, 1);
+    level.setTile(3, 8, 1);
+    level.setTile(3, 9, 1);
+    level.setTile(3, 10, 1);
+    level.setTile(3, 11, 1);
+    level.setTile(3, 12, 1);
     level.setTile(11, 13, 1);
-    level.setTile(7, 9, 1);
-	level.setTile(8, 9, 1);
-	level.setTile(9, 9, 1);
-    level.setTile(6, 9, 1);
-    level.setTile(5, 8, 1);
-    level.setTile(4, 8, 1);
-    level.setTile(6, 3, 1);
+    level.setTile(7, 7, 1);
+    level.setTile(8, 7, 1);
+    level.setTile(9, 7, 1);
+    level.setTile(10, 7, 1);
+    level.setTile(11, 7, 1);
+    level.setTile(12, 7, 1);
+    level.setTile(13, 7, 1);
+    level.setTile(6, 4, 1);
+    level.setTile(5, 4, 1);
+    level.setTile(7, 4, 1);
+    level.setTile(8, 4, 1);
+    level.setTile(9, 4, 1);
+    level.setTile(10, 4, 1);
+    level.setTile(11, 4, 1);
+    level.setTile(6, 10, 1);
+    level.setTile(7, 10, 1);
+    level.setTile(8, 10, 1);
+    level.setTile(9, 10, 1);
+    level.setTile(10, 10, 1);
+    level.setTile(11, 10, 1);
+    level.setTile(11, 8, 1);
+    level.setTile(10, 12, 1);
 
     playerX = 1;
     playerY = 1;
@@ -111,5 +134,9 @@ void PlayEngine::draw(sf::RenderWindow& window) {
     
         
     }
+
+}
+void PlayEngine::reset() {
+
 
 }
