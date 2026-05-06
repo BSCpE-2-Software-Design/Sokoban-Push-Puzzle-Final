@@ -49,7 +49,7 @@ PlayEngine::PlayEngine(SFML_AssetManager* assetPtr)
     level.setTile(11, 10, 1);
     level.setTile(11, 8, 1);
     level.setTile(10, 12, 1);
-
+    level.setTile(10, 11, 1);
     playerX = 1;
     playerY = 1;
     level.setTile(playerX, playerY, 2); // Player naman ay ID 2
