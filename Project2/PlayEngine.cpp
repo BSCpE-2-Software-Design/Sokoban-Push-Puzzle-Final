@@ -142,6 +142,71 @@ void PlayEngine::draw(sf::RenderWindow& window) {
 
 }
 void PlayEngine::reset() {
+        // 1. I-reset ang posisyon ng player
+        playerX = 1;
+        playerY = 1;
+
+        // 2. I-reset ang counter ng moves
+        moves = 0;
+
+        // 3. I-clear ang grid (Gawing 0/Empty lahat muna)
+        for (int y = 0; y < level.getHeight(); y++) {
+            for (int x = 0; x < level.getWidth(); x++) {
+                level.setTile(x, y, 0);
+            }
+        }
+
+        // 4. I-re-setup ang mga pader/bakod (Kopyahin ang loop mo sa constructor)
+        for (int i = 0; i < 15; i++) {
+            level.setTile(i, 0, 1);    // Taas
+            level.setTile(i, 14, 1);   // Ibaba
+            level.setTile(0, i, 1);    // Kaliwa
+            level.setTile(14, i, 1);   // Kanang
+        }
+
+        // 5. I-set up ulit ang objects at player
+        level.setTile(4, 4, 3); // Box
+        level.setTile(playerX, playerY, 2);// Player
+        level.setTile(4, 4, 3);
+        level.setTile(2, 6, 1);
+        level.setTile(2, 8, 1);
+        level.setTile(2, 10, 1);
+        level.setTile(3, 3, 1);
+        level.setTile(3, 4, 1);
+        level.setTile(3, 5, 1);
+        level.setTile(3, 6, 1);
+        level.setTile(3, 7, 1);
+        level.setTile(3, 8, 1);
+        level.setTile(3, 9, 1);
+        level.setTile(3, 10, 1);
+        level.setTile(3, 11, 1);
+        level.setTile(3, 12, 1);
+        level.setTile(11, 13, 1);
+        level.setTile(7, 7, 1);
+        level.setTile(8, 7, 1);
+        level.setTile(9, 7, 1);
+        level.setTile(10, 7, 1);
+        level.setTile(11, 7, 1);
+        level.setTile(12, 7, 1);
+        level.setTile(13, 7, 1);
+        level.setTile(6, 4, 1);
+        level.setTile(5, 4, 1);
+        level.setTile(7, 4, 1);
+        level.setTile(8, 4, 1);
+        level.setTile(9, 4, 1);
+        level.setTile(10, 4, 1);
+        level.setTile(11, 4, 1);
+        level.setTile(6, 10, 1);
+        level.setTile(7, 10, 1);
+        level.setTile(8, 10, 1);
+        level.setTile(9, 10, 1);
+        level.setTile(10, 10, 1);
+        level.setTile(11, 10, 1);
+        level.setTile(11, 8, 1);
+        level.setTile(10, 12, 1);
+        level.setTile(10, 5, 1);
+        // Magdagdag pa ng ibang pader o tiles dito kung meron ka sa constructor
+    
 
 
 }
