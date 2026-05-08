@@ -51,7 +51,6 @@ PlayEngine::PlayEngine(SFML_AssetManager* assetPtr)
     level.setTile(10, 10, 1);
     level.setTile(11, 10, 1);
     level.setTile(11, 8, 1);
-    level.setTile(10, 12, 1);
     level.setTile(10, 5, 1);
 
 
@@ -63,34 +62,36 @@ PlayEngine::PlayEngine(SFML_AssetManager* assetPtr)
 void PlayEngine::processMove(int dx, int dy) {
     int nextX = playerX + dx;
     int nextY = playerY + dy;
-    int tileAtNext = level.getTile(nextX, nextY);
 
-    // 1. Kung Wall, wag kumilos
-    if (tileAtNext == 1) return;
+    int targetTile = level.getTile(nextX, nextY);
 
-    // 2. Kung Box (ID 3), tinutulak na box
-    if (tileAtNext == 3) {
+    // 1. Kung Wall, huwag gumalaw
+    if (targetTile == 1) return;
+
+    // 2. Kung Box (ID 3)
+    if (targetTile == 3) {
         int behindBoxX = nextX + dx;
         int behindBoxY = nextY + dy;
+        int behindTile = level.getTile(behindBoxX, behindBoxY);
 
-        // Pwede lang itulak kung ang likod ng box ay Empty Space (ID 0)
-        if (level.getTile(behindBoxX, behindBoxY) == 0) {
-            level.setTile(behindBoxX, behindBoxY, 3); // Ilipat ang Box sa bagong pwesto
-            level.setTile(nextX, nextY, 0);           // Gawing empty ang pinanggalingan ng box
+        // PWEDE LANG ITULAK KUNG ang nasa likod ay Empty (0) o Goal (4)
+        if (behindTile == 0 || behindTile == 4) {
+            level.setTile(behindBoxX, behindBoxY, 3); // Ilipat ang box
+            level.setTile(nextX, nextY, 0);           // Gawing empty ang pinanggalingan
         }
         else {
-            return; // Hindi maitulak ang box dahil may harang sa likod
+            return; // Hindi maitulak kung may wall o ibang box sa likod
         }
     }
 
-    // 3.Player Position sa Grid
-    level.setTile(playerX, playerY, 0); 
+    // 3. I-update ang Player Position
     playerX = nextX;
     playerY = nextY;
-    level.setTile(playerX, playerY, 2); 
-    moves++;
+
+    // Paalala: Sa simpleng logic na ito, mabubura ang goal (ID 4) kapag nadaanan.
+    // Pero ito muna ang gamitin natin para mawala ang errors mo.
 }
-// Function para sa Keyboard Inputs
+
 
 void PlayEngine::handleInput(const sf::Event& event) {
     // I-check kung KeyPressed ang event
@@ -137,10 +138,10 @@ void PlayEngine::draw(sf::RenderWindow& window) {
             }
 
             else if (level.getTile(x, y) == 4) {
-                sf::CircleShape goal(12.f);
+                sf::CircleShape goal(15.f);
                 goal.setFillColor(sf::Color(255, 192, 203));
                
-				goal.setPosition({ (x * 64.f) + 20.0f, y * 64.f + 20.0f });
+				goal.setPosition({ x * 64.f + 17.0f, y * 64.f + 17.0f });
                 window.draw(goal);
 
             }
@@ -214,7 +215,8 @@ void PlayEngine::reset() {
         level.setTile(11, 8, 1);
         level.setTile(10, 12, 1);
         level.setTile(10, 5, 1);
-        level.setTile(10,10, 4); 
+        level.setTile(10,10, 4);
+        level.setTile(11, 12, 4);
         // Magdagdag pa ng ibang pader o tiles dito kung meron ka sa constructor
     
 

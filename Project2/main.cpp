@@ -19,16 +19,7 @@ int main() {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
-            window.clear();
-            game.draw(window);
 
-            if (game.checkWin()) {
-                std::cout << "Congratulations! You won in " << std::endl;
-
-            }
-            window.display();
-
-            return 0;
 
 
             if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
@@ -41,15 +32,21 @@ int main() {
                     game.reset(); // Tatawagin nito ang function para i-reset ang grid
                 }
             }
-
-
-
-
+        }
             window.clear();
             game.draw(window);
             window.display();
-        }
+            if (game.checkWin()) {
+                std::cout << "Congratulations! You won in " << std::endl;
 
-        return 0;
+            }
+           
+
+
+
+         
+        
+
+        
     }
 }
