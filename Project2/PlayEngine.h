@@ -19,7 +19,7 @@ public:
     void handleInput(const sf::Event& event);
     void draw(sf::RenderWindow& window);
 	void reset();
-
+    bool checkWin();
 };
 
 #endif

@@ -1,5 +1,6 @@
 #include <SFML/Graphics.hpp>
 #include "AssetManager.h"
+#include <iostream>
 #include "PlayEngine.h"
 
 int main() {
@@ -18,25 +19,37 @@ int main() {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
-            
+            window.clear();
+            game.draw(window);
+
+            if (game.checkWin()) {
+                std::cout << "Congratulations! You won in " << std::endl;
+
+            }
+            window.display();
+
+            return 0;
+
+
             if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                 if (keyPressed->code == sf::Keyboard::Key::W) game.processMove(0, -1);
                 if (keyPressed->code == sf::Keyboard::Key::S) game.processMove(0, 1);
                 if (keyPressed->code == sf::Keyboard::Key::A) game.processMove(-1, 0);
                 if (keyPressed->code == sf::Keyboard::Key::D) game.processMove(1, 0);
-               
+
                 if (keyPressed->code == sf::Keyboard::Key::Escape) {
                     game.reset(); // Tatawagin nito ang function para i-reset ang grid
                 }
             }
-            
-            
+
+
+
+
+            window.clear();
+            game.draw(window);
+            window.display();
         }
 
-        window.clear();
-        game.draw(window);
-        window.display();
+        return 0;
     }
-
-    return 0;
 }

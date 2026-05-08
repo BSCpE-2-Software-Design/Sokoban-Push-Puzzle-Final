@@ -128,12 +128,21 @@ void PlayEngine::draw(sf::RenderWindow& window) {
                 window.draw(box);
             }
 
-            // 3. Player Logic (ID 2)
+            // 3. Player Logic (ID 2
             else if (level.getTile(x, y) == 2) {
                 sf::CircleShape player(32.f);
                 player.setFillColor(sf::Color::Red);
                 player.setPosition({ x * 64.f, y * 64.f });
                 window.draw(player);
+            }
+
+            else if (level.getTile(x, y) == 4) {
+                sf::CircleShape goal(12.f);
+                goal.setFillColor(sf::Color(255, 192, 203));
+               
+				goal.setPosition({ (x * 64.f) + 20.0f, y * 64.f + 20.0f });
+                window.draw(goal);
+
             }
         }
     
@@ -205,8 +214,16 @@ void PlayEngine::reset() {
         level.setTile(11, 8, 1);
         level.setTile(10, 12, 1);
         level.setTile(10, 5, 1);
+        level.setTile(10,10, 4); 
         // Magdagdag pa ng ibang pader o tiles dito kung meron ka sa constructor
     
 
 
+}
+bool PlayEngine::checkWin() {
+    if(level.getTile(10, 10) == 3 && level.getTile(11, 10) == 3) {
+        return true;
+	}
+    
+    return false;
 }
