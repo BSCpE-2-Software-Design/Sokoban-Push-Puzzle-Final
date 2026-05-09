@@ -84,12 +84,11 @@ void PlayEngine::processMove(int dx, int dy) {
         }
     }
 
-    // 3. I-update ang Player Position
+    // 3. I-update ang Player Position sa Grid data
+    level.setTile(playerX, playerY, 0); // Gawing empty ang dating pwesto
     playerX = nextX;
     playerY = nextY;
-
-    // Paalala: Sa simpleng logic na ito, mabubura ang goal (ID 4) kapag nadaanan.
-    // Pero ito muna ang gamitin natin para mawala ang errors mo.
+    level.setTile(playerX, playerY, 2); // Ilagay ang player (ID 2) sa bagong pwesto
 }
 
 
@@ -215,17 +214,18 @@ void PlayEngine::reset() {
         level.setTile(11, 8, 1);
         level.setTile(10, 12, 1);
         level.setTile(10, 5, 1);
-        level.setTile(10,10, 4);
-        level.setTile(11, 12, 4);
+        level.setTile(11,12, 4);
+        level.setTile(12, 12, 4);
+        level.setTile(12, 10, 4);
         // Magdagdag pa ng ibang pader o tiles dito kung meron ka sa constructor
     
 
 
 }
 bool PlayEngine::checkWin() {
-    if(level.getTile(10, 10) == 3 && level.getTile(11, 10) == 3) {
-        return true;
-	}
     
+    if (level.getTile(12, 10) == 3 && level.getTile(12, 12) == 3) {
+        return true;
+    }
     return false;
 }
