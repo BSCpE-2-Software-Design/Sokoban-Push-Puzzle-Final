@@ -38,7 +38,7 @@ int main() {
         
 
         if (game.checkWin()) {
-            std::cout << "WINNER!!! WINNER!!!" << std::endl;
+            std::cout << "WINNER!!! WINNER!!!" << std::flush;
 
 
 

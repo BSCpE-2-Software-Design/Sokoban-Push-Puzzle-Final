@@ -1,66 +1,73 @@
 #include "PlayEngine.h"
+#include <iostream>
 
 PlayEngine::PlayEngine(SFML_AssetManager* assetPtr)
-    : level(15, 15), assets(assetPtr), moves(0) {
-
-    // Mag-loop para lagyan ng pader (ID 1) ang paligid ng 15x15 grid
-    for (int i = 0; i < 15; i++) {
-        level.setTile(i, 0, 1);    // Taas
-        level.setTile(i, 14, 1);    // Ibaba
-        level.setTile(0, i, 1);    // Kaliwa
-        level.setTile(14, i, 1);    // Kanang
-        
-
+    : assets(assetPtr), moves(0)
+{
+ 
+    if (font.openFromFile("arial.ttf")) {
+        winText.setFont(font);
+        winText.setString("WINNER!!!");
+        winText.setCharacterSize(100);
+        winText.setFillColor(sf::Color::Yellow);
+        winText.setPosition({ 250.f, 400.f });
     }
+    reset();
+}
+
     //  mga pader sa loob para sa puzzle layout
     // level.setTile(x,y,1)
 	// x - horizontal, y - vertical
-    level.setTile(4, 4, 3);
-    level.setTile(2, 6, 1);
-    level.setTile(2, 8, 1);
-    level.setTile(2, 10, 1);
-    level.setTile(3, 3, 1);
-    level.setTile(3, 4, 1);
-    level.setTile(3, 5, 1);
-    level.setTile(3, 6, 1);
-    level.setTile(3, 7, 1);
-    level.setTile(3, 8, 1);
-    level.setTile(3, 9, 1);
-    level.setTile(3, 10, 1);
-    level.setTile(3, 11, 1);
-    level.setTile(3, 12, 1);
-    level.setTile(11, 13, 1);
-    level.setTile(7, 7, 1);
-    level.setTile(8, 7, 1);
-    level.setTile(9, 7, 1);
-    level.setTile(10, 7, 1);
-    level.setTile(11, 7, 1);
-    level.setTile(12, 7, 1);
-    level.setTile(13, 7, 1);
-    level.setTile(6, 4, 1);
-    level.setTile(5, 4, 1);
-    level.setTile(7, 4, 1);
-    level.setTile(8, 4, 1);
-    level.setTile(9, 4, 1);
-    level.setTile(10, 4, 1);
-    level.setTile(11, 4, 1);
-    level.setTile(6, 10, 1);
-    level.setTile(7, 10, 1);
-    level.setTile(8, 10, 1);
-    level.setTile(9, 10, 1);
-    level.setTile(10, 10, 1);
-    level.setTile(11, 10, 1);
-    level.setTile(11, 8, 1);
-    level.setTile(10, 5, 1);
-    level.setTile(11, 12, 4);
-    level.setTile(12, 12, 4);
-    level.setTile(12, 10, 4);
-    level.setTile(10, 12, 4);
+   // level.setTile(4, 4, 3);
+   // level.setTile(2, 6, 1);
+    //level.setTile(2, 8, 1);
+  //  level.setTile(2, 10, 1);
+   // level.setTile(3, 3, 1);
+  //  level.setTile(3, 4, 1);
+   // level.setTile(3, 5, 1);
+ //   level.setTile(3, 6, 1);
+   // level.setTile(3, 7, 1);
+    //level.setTile(3, 8, 1);
+  //  level.setTile(3, 9, 1);
+  //  level.setTile(3, 10, 1);
+  //  level.setTile(3, 11, 1);
+   // level.setTile(3, 12, 1);
+  //  level.setTile(11, 13, 1);
+  //  level.setTile(7, 7, 1);
+  //  level.setTile(8, 7, 1);
+   // level.setTile(9, 7, 1);
+ //   level.setTile(10, 7, 1);
+   // level.setTile(11, 7, 1);
+   // level.setTile(12, 7, 1);
+   // level.setTile(13, 7, 1);
+   // level.setTile(6, 4, 1);
+   // level.setTile(5, 4, 1);
+   // level.setTile(7, 4, 1);
+   // level.setTile(8, 4, 1);
+   // level.setTile(9, 4, 1);
+    //level.setTile(10, 4, 1);
+    //level.setTile(11, 4, 1);
+   // level.setTile(6, 10, 1);
+   // level.setTile(7, 10, 1);
+   // level.setTile(8, 10, 1);
+   // level.setTile(9, 10, 1);
+    //level.setTile(10, 10, 1);
+   // level.setTile(11, 10, 1);
+   // level.setTile(11, 8, 1);
+    //level.setTile(10, 5, 1);
+    //level.setTile(11, 12, 4);
+    //level.setTile(12, 12, 4);
+   // level.setTile(12, 10, 4);
+    //level.setTile(10, 12, 4);
 
-    playerX = 1;
-    playerY = 1;
-    level.setTile(playerX, playerY, 2); // Player naman ay ID 2
-}
+  //  playerX = 1;
+   // playerY = 1;
+   // level.setTile(playerX, playerY, 2); // Player naman ay ID 2
+
+
+
+
+
 // Function para sa paggalaw base sa grid
 void PlayEngine::processMove(int dx, int dy) {
     int nextX = playerX + dx;
@@ -150,6 +157,10 @@ void PlayEngine::draw(sf::RenderWindow& window) {
                 goalShape.setPosition({ x * 64.f + 17.f, y * 64.f + 17.f });
                 window.draw(goalShape); // Ang window na ito ay galing sa parameter ng draw
             }
+            if (checkWin()) {
+                window.draw(winText); // Ito ang magpapakita ng "Winner"
+            }
+            reset();
 
         }
     }
@@ -183,6 +194,7 @@ void PlayEngine::reset() {
 
     // 5. I-set up ulit ang objects at player
     level.setTile(4, 4, 3);
+	level.setTile(playerX, playerY, 2); // Player naman ay ID 2
     level.setTile(2, 6, 1);
     level.setTile(2, 8, 1);
     level.setTile(2, 10, 1);
@@ -220,21 +232,20 @@ void PlayEngine::reset() {
     level.setTile(11, 8, 1);
     level.setTile(10, 5, 1);
     
-    level.setTile(12, 12, 4);
+    //level.setTile(12, 12, 4);
     
-    level.setTile(10, 12, 4);
-
+    level.setTile(12, 10, 4);
+    playerX = 1;
+    playerY = 1;
     // Magdagdag pa ng ibang pader o tiles dito kung meron ka sa constructor
 
 }
 bool PlayEngine::checkWin() {
-    int tile1 = level.getTile(12, 10);
-    int tile2 = level.getTile(12, 12);
+    int currentTile = level.getTile(12, 10);
+    //  lalabas sa console habang naglalaro ka
+    std::cout << "Current Tile at (12,10) is: " << currentTile << std::endl;
 
-    // I-print ito para makita mo sa console habang naglalaro
-    // std::cout << "Tile1: " << tile1 << " Tile2: " << tile2 << std::endl;
-
-    if (tile1 == 3 && tile2 == 3) {
+    if (currentTile == 3) { // 3 ang ID ng Box
         return true;
     }
     return false;
