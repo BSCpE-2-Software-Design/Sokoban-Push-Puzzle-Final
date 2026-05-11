@@ -27,27 +27,24 @@ int main() {
                 if (keyPressed->code == sf::Keyboard::Key::S) game.processMove(0, 1);
                 if (keyPressed->code == sf::Keyboard::Key::A) game.processMove(-1, 0);
                 if (keyPressed->code == sf::Keyboard::Key::D) game.processMove(1, 0);
-                if (keyPressed->code == sf::Keyboard::Key::Escape) {
-                    game.reset(); // Tatawagin nito ang function para i-reset ang grid
-                }
+                if (keyPressed->code == sf::Keyboard::Key::Escape)game.reset();
+                
+
             }
         }
-        window.clear();
-        game.draw(window);
-        window.display();
-        
-
         if (game.checkWin()) {
             std::cout << "WINNER!!! WINNER!!!" << std::flush;
-
-
-
         }
-    }
-        
 
+        window.clear();
+        game.Draw(window); 
+        window.display();
+    } 
+
+    return 0;
+} 
         
     
 
-}
+
 

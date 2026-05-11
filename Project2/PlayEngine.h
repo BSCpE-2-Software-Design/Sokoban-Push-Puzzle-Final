@@ -1,3 +1,4 @@
+
 #ifndef PLAYENGINE_H
 #define PLAYENGINE_H
 
@@ -6,22 +7,21 @@
 #include <SFML/Graphics.hpp>
 
 class PlayEngine {
-    
 private:
     LevelModel level;
     int playerX, playerY;
     int moves;
     SFML_AssetManager* assets;
     sf::Font font;
-    sf::Text winText;
+    sf::Text winText; 
 
 public:
     PlayEngine(SFML_AssetManager* assetPtr);
     void processMove(int dx, int dy);
     void handleInput(const sf::Event& event);
-    void draw(sf::RenderWindow& window); 
+    void Draw(sf::RenderWindow& window); 
     void reset();
     bool checkWin(); 
-    };
+};
 
 #endif

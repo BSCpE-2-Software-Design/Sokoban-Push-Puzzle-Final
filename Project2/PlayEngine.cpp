@@ -1,70 +1,21 @@
+
 #include "PlayEngine.h"
 #include <iostream>
 
 PlayEngine::PlayEngine(SFML_AssetManager* assetPtr)
-    : assets(assetPtr), moves(0)
-{
- 
+    : assets(assetPtr), moves(0), winText(font)
+{ 
+
     if (font.openFromFile("arial.ttf")) {
-        winText.setFont(font);
         winText.setString("WINNER!!!");
+        winText.setFont(font);
         winText.setCharacterSize(100);
         winText.setFillColor(sf::Color::Yellow);
         winText.setPosition({ 250.f, 400.f });
     }
+
     reset();
-}
-
-    //  mga pader sa loob para sa puzzle layout
-    // level.setTile(x,y,1)
-	// x - horizontal, y - vertical
-   // level.setTile(4, 4, 3);
-   // level.setTile(2, 6, 1);
-    //level.setTile(2, 8, 1);
-  //  level.setTile(2, 10, 1);
-   // level.setTile(3, 3, 1);
-  //  level.setTile(3, 4, 1);
-   // level.setTile(3, 5, 1);
- //   level.setTile(3, 6, 1);
-   // level.setTile(3, 7, 1);
-    //level.setTile(3, 8, 1);
-  //  level.setTile(3, 9, 1);
-  //  level.setTile(3, 10, 1);
-  //  level.setTile(3, 11, 1);
-   // level.setTile(3, 12, 1);
-  //  level.setTile(11, 13, 1);
-  //  level.setTile(7, 7, 1);
-  //  level.setTile(8, 7, 1);
-   // level.setTile(9, 7, 1);
- //   level.setTile(10, 7, 1);
-   // level.setTile(11, 7, 1);
-   // level.setTile(12, 7, 1);
-   // level.setTile(13, 7, 1);
-   // level.setTile(6, 4, 1);
-   // level.setTile(5, 4, 1);
-   // level.setTile(7, 4, 1);
-   // level.setTile(8, 4, 1);
-   // level.setTile(9, 4, 1);
-    //level.setTile(10, 4, 1);
-    //level.setTile(11, 4, 1);
-   // level.setTile(6, 10, 1);
-   // level.setTile(7, 10, 1);
-   // level.setTile(8, 10, 1);
-   // level.setTile(9, 10, 1);
-    //level.setTile(10, 10, 1);
-   // level.setTile(11, 10, 1);
-   // level.setTile(11, 8, 1);
-    //level.setTile(10, 5, 1);
-    //level.setTile(11, 12, 4);
-    //level.setTile(12, 12, 4);
-   // level.setTile(12, 10, 4);
-    //level.setTile(10, 12, 4);
-
-  //  playerX = 1;
-   // playerY = 1;
-   // level.setTile(playerX, playerY, 2); // Player naman ay ID 2
-
-
+} 
 
 
 
@@ -118,57 +69,31 @@ void PlayEngine::handleInput(const sf::Event& event) {
     }
 }
 
-void PlayEngine::draw(sf::RenderWindow& window) {
-    //  Kunin ang texture mula sa manager
+void PlayEngine::Draw(sf::RenderWindow& window) { // Gawing Capital 'D'
+    // 1. Kuhanin ang texture
     sf::Sprite wallSprite(assets->getTexture("wall"));
 
-    //  64x64 pixels ang brick
-    sf::Vector2u size = assets->getTexture("wall").getSize();
-    wallSprite.setScale({ 64.0f / size.x, 64.0f / size.y });
-
-    //  loop ng buong grid
+    // 2. Loop ng buong grid
     for (int y = 0; y < level.getHeight(); y++) {
         for (int x = 0; x < level.getWidth(); x++) {
 
-            // 1. Wall Logic (ID 1)
+            // Wall Logic (ID 1)
             if (level.getTile(x, y) == 1) {
                 wallSprite.setPosition({ x * 64.f, y * 64.f });
                 window.draw(wallSprite);
             }
 
-            // 2. Box Logic (ID 3) - 
-            else if (level.getTile(x, y) == 3) {
-                sf::RectangleShape box({ 56.f, 56.f });
-                box.setFillColor(sf::Color::Green);
-                box.setPosition({ (x * 64.f) + 4.f, (y * 64.f) + 4.f });
-                window.draw(box);
-            }
-
-            // 3. Player Logic (ID 2
-            else if (level.getTile(x, y) == 2) {
-                sf::CircleShape player(32.f);
-                player.setFillColor(sf::Color::Red);
-                player.setPosition({ x * 64.f, y * 64.f });
-                window.draw(player);
-            }
-            else if (level.getTile(x, y) == 4) { // Kung ang tile ay ID 4
-                sf::CircleShape goalShape(15.f);
-                goalShape.setFillColor(sf::Color(255, 192, 203)); // Pink color
-                goalShape.setPosition({ x * 64.f + 17.f, y * 64.f + 17.f });
-                window.draw(goalShape); // Ang window na ito ay galing sa parameter ng draw
-            }
-            if (checkWin()) {
-                window.draw(winText); // Ito ang magpapakita ng "Winner"
-            }
-            reset();
-
+            // ... (ipagpatuloy ang box, player, at goal logic mo dito)
         }
     }
 
+    // 3. Win Text Logic
+    if (checkWin()) {
+        window.draw(winText);
+    }
 
-};
-
-
+    // BURAHIN MO DITO YUNG reset(); <--- BAWAL ITO DITO
+}
 void PlayEngine::reset() {
     // 1. I-reset ang posisyon ng player
     playerX = 1;
