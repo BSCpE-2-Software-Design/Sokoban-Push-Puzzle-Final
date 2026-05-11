@@ -35,14 +35,14 @@ int main() {
         window.clear();
         game.draw(window);
         window.display();
+        
+
         if (game.checkWin()) {
-            std::cout << "Congratulations! You won in " << std::endl;
+            std::cout << "WINNER!!! WINNER!!!" << std::endl;
+
+
 
         }
-
-
-
-
     }
         
 
