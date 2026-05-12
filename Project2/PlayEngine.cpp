@@ -45,6 +45,7 @@ void PlayEngine::processMove(int dx, int dy) {
             }
             else {
                 level.setTile(nextX, nextY, 0); // Gawing empty space
+
             }
         }
         else {
@@ -69,8 +70,8 @@ void PlayEngine::handleInput(const sf::Event& event) {
     }
 }
 
-void PlayEngine::Draw(sf::RenderWindow& window) { // Gawing Capital 'D'
-    // 1. Kuhanin ang texture
+void PlayEngine::Draw(sf::RenderWindow& window) { 
+    
     sf::Sprite wallSprite(assets->getTexture("wall"));
 
     // 2. Loop ng buong grid
@@ -82,8 +83,22 @@ void PlayEngine::Draw(sf::RenderWindow& window) { // Gawing Capital 'D'
                 wallSprite.setPosition({ x * 64.f, y * 64.f });
                 window.draw(wallSprite);
             }
+            //box logic (ID3
+            else if (level.getTile(x, y) == 3) {
+                sf::RectangleShape box({ 56.f, 56.f });
+                box.setFillColor(sf::Color::Green);
+                box.setPosition({ (x * 64.f) + 4.f, (y * 64.f) + 4.f });
+                window.draw(box);
+            }
 
-            // ... (ipagpatuloy ang box, player, at goal logic mo dito)
+            // Player Logic (ID 2)
+            else if (level.getTile(x, y) == 2) {
+                sf::CircleShape player(32.f);
+                player.setFillColor(sf::Color::Red);
+                player.setPosition({ x * 64.f, y * 64.f });
+                window.draw(player);
+            }
+           
         }
     }
 
@@ -92,7 +107,8 @@ void PlayEngine::Draw(sf::RenderWindow& window) { // Gawing Capital 'D'
         window.draw(winText);
     }
 
-    // BURAHIN MO DITO YUNG reset(); <--- BAWAL ITO DITO
+
+    
 }
 void PlayEngine::reset() {
     // 1. I-reset ang posisyon ng player
