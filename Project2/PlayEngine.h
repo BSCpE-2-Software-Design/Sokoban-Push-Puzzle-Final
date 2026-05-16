@@ -8,10 +8,10 @@
 
 class PlayEngine {
 private:
+    SFML_AssetManager* assets;
     LevelModel level;
     int playerX, playerY;
     int moves;
-    SFML_AssetManager* assets;
     sf::Font font;
     sf::Text winText; 
 
