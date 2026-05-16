@@ -69,7 +69,8 @@ PlayEngine::PlayEngine(SFML_AssetManager* assetPtr)
     level.setTile(11, 10, 1);
     level.setTile(11, 8, 1);
     level.setTile(10, 5, 1);
-    level.setTile(12, 12, 4);
+    level.setTile(11, 12, 1);
+   // level.setTile(12, 12, 4);
     level.setTile(12, 10, 4);
     playerX = 1;
     playerY = 1;
@@ -102,6 +103,7 @@ void PlayEngine::processMove(int dx, int dy) {
             // (Dapat alam mo ang coordinates ng goals mo)
             if ((nextX == 12 && nextY == 10) || (nextX == 12 && nextY == 12)) {
                 level.setTile(nextX, nextY, 4); // Ibalik ang ID 4 (Goal)
+            
             }
             else {
                 level.setTile(nextX, nextY, 0); // Gawing empty space
@@ -140,21 +142,26 @@ void PlayEngine::Draw(sf::RenderWindow& window) {
 
             int tileID = level.getTile(x, y);
 
-            // Wall Logic (ID 1)
             if (tileID == 1) {
                 wallSprite.setPosition({ x * 64.f, y * 64.f });
                 window.draw(wallSprite);
             }
-            // Box Logic (ID 3)
+            // Idagdag itong bago para sa GOAL (ID 4)
+            else if (tileID == 4) {
+                sf::RectangleShape goal({ 24.f, 24.f }); // Maliit na square lang para sahig
+                goal.setFillColor(sf::Color::Yellow);    // Kulay dilaw ang goal indicator
+                // I-center natin sa loob ng 64x64 tile
+                goal.setPosition({ (x * 64.f) + 20.f, (y * 64.f) + 20.f });
+                window.draw(goal);
+            }
             else if (tileID == 3) {
                 sf::RectangleShape box({ 56.f, 56.f });
                 box.setFillColor(sf::Color::Green);
                 box.setPosition({ (x * 64.f) + 4.f, (y * 64.f) + 4.f });
                 window.draw(box);
             }
-            // Player Logic (ID 2)
             else if (tileID == 2) {
-                sf::CircleShape player(28.f); // Ginawa nating 28.f para magkasya nang may allowance
+                sf::CircleShape player(28.f);
                 player.setFillColor(sf::Color::Red);
                 player.setPosition({ (x * 64.f) + 4.f, (y * 64.f) + 4.f });
                 window.draw(player);
@@ -225,7 +232,8 @@ void PlayEngine::reset() {
     level.setTile(11, 10, 1);
     level.setTile(11, 8, 1);
     level.setTile(10, 5, 1);
-    level.setTile(12, 12, 4);
+    level.setTile(11, 12, 1);
+    //level.setTile(12, 12, 4);
     level.setTile(12, 10, 4);
     playerX = 1;
     playerY = 1;
