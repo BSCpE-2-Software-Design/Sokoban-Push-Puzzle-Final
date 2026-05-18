@@ -1,4 +1,3 @@
-
 #ifndef PLAYENGINE_H
 #define PLAYENGINE_H
 
@@ -13,15 +12,16 @@ private:
     int playerX, playerY;
     int moves;
     sf::Font font;
-    sf::Text winText; 
+    sf::Text winText;
+    int currentLevel; 
 
 public:
     PlayEngine(SFML_AssetManager* assetPtr);
     void processMove(int dx, int dy);
     void handleInput(const sf::Event& event);
-    void Draw(sf::RenderWindow& window); 
-    void reset();
-    bool checkWin(); 
+    void Draw(sf::RenderWindow& window);
+    void reset(int levelNum);
+    bool checkWin();
 };
 
 #endif

@@ -15,66 +15,7 @@ PlayEngine::PlayEngine(SFML_AssetManager* assetPtr)
     }
    
 
-    
-    playerX = 1;
-    playerY = 1;
-    moves = 0; 
-    for (int y = 0; y < level.getHeight(); y++) {
-        for (int x = 0; x < level.getWidth(); x++) {
-            level.setTile(x, y, 0);
-        }
-    }
-    for (int i = 0; i < 15; i++) {
-        level.setTile(i, 0, 1);    // Taas
-        level.setTile(i, 14, 1);   // Ibaba
-        level.setTile(0, i, 1);    // Kaliwa
-        level.setTile(14, i, 1);   // Kanang
-    }
-
-    level.setTile(4, 4, 3);
-    level.setTile(playerX, playerY, 2); // Player naman ay ID 2
-    level.setTile(2, 6, 1);
-    level.setTile(2, 8, 1);
-    level.setTile(2, 10, 1);
-    level.setTile(3, 3, 1);
-    level.setTile(3, 4, 1);
-    level.setTile(3, 5, 1);
-    level.setTile(3, 6, 1);
-    level.setTile(3, 7, 1);
-    level.setTile(3, 8, 1);
-    level.setTile(3, 9, 1);
-    level.setTile(3, 10, 1);
-    level.setTile(3, 11, 1);
-    level.setTile(3, 12, 1);
-    level.setTile(11, 13, 1);
-    level.setTile(7, 7, 1);
-    level.setTile(8, 7, 1);
-    level.setTile(9, 7, 1);
-    level.setTile(10, 7, 1);
-    level.setTile(11, 7, 1);
-    level.setTile(12, 7, 1);
-    level.setTile(13, 7, 1);
-    level.setTile(6, 4, 1);
-    level.setTile(5, 4, 1);
-    level.setTile(7, 4, 1);
-    level.setTile(8, 4, 1);
-    level.setTile(9, 4, 1);
-    level.setTile(10, 4, 1);
-    level.setTile(11, 4, 1);
-    level.setTile(6, 10, 1);
-    level.setTile(7, 10, 1);
-    level.setTile(8, 10, 1);
-    level.setTile(9, 10, 1);
-    level.setTile(10, 10, 1);
-    level.setTile(11, 10, 1);
-    level.setTile(11, 8, 1);
-    level.setTile(10, 5, 1);
-    level.setTile(11, 12, 1);
-   // level.setTile(12, 12, 4);
-    level.setTile(12, 10, 4);
-    playerX = 1;
-    playerY = 1;
-    // Magdagdag pa ng ibang pader o tiles dito kung meron ka sa constructor
+    reset(1);
 
 } 
 
@@ -97,28 +38,49 @@ void PlayEngine::processMove(int dx, int dy) {
         int behindTile = level.getTile(behindBoxX, behindBoxY);
 
         if (behindTile == 0 || behindTile == 4) {
-            level.setTile(behindBoxX, behindBoxY, 3); // Ilagay ang box sa target
+            level.setTile(behindBoxX, behindBoxY, 3); 
 
-            
-            // (Dapat alam mo ang coordinates ng goals mo)
-            if ((nextX == 12 && nextY == 10) || (nextX == 12 && nextY == 12)) {
-                level.setTile(nextX, nextY, 4); // Ibalik ang ID 4 (Goal)
-            
-            }
-            else {
-                level.setTile(nextX, nextY, 0); // Gawing empty space
 
+            if (currentLevel == 1) {
+                
+                if (nextX == 12 && nextY == 10) {
+                    level.setTile(nextX, nextY, 4);
+                }
+                
+                else if (level.getTile(nextX, nextY) == 3) {
+                    level.setTile(nextX, nextY, 0);
+                }
             }
+            else if (currentLevel == 2) {
+                if (nextX == 12 && nextY == 1) {
+                    level.setTile(nextX, nextY, 4);
+                }
+                else if (level.getTile(nextX, nextY) == 3) {
+                    level.setTile(nextX, nextY, 0);
+                }
+            }
+
         }
         else {
             return;
         }
     }
-    // 3. I-update ang Player Position sa Grid data
-    level.setTile(playerX, playerY, 0); // Gawing empty ang dating pwesto
+    if (level.getTile(playerX, playerY) == 2) {
+        if (currentLevel == 1 && playerX == 12 && playerY == 10) {
+            level.setTile(playerX, playerY, 4); 
+        }
+        else if (currentLevel == 2 && playerX == 12 && playerY == 1) {
+            level.setTile(playerX, playerY, 4);
+        }
+        else {
+            level.setTile(playerX, playerY, 0); // Gawing malinis na sahig kung hindi naman goal
+        }
+    }
+
+   
     playerX = nextX;
     playerY = nextY;
-    level.setTile(playerX, playerY, 2); // Ilagay ang player (ID 2) sa bagong pwesto
+    level.setTile(playerX, playerY, 2); // Ilagay si Player (ID 2) sa bagong tile data
 }
 
 
@@ -146,11 +108,11 @@ void PlayEngine::Draw(sf::RenderWindow& window) {
                 wallSprite.setPosition({ x * 64.f, y * 64.f });
                 window.draw(wallSprite);
             }
-            // Idagdag itong bago para sa GOAL (ID 4)
+            
             else if (tileID == 4) {
                 sf::RectangleShape goal({ 24.f, 24.f }); // Maliit na square lang para sahig
                 goal.setFillColor(sf::Color::Yellow);    // Kulay dilaw ang goal indicator
-                // I-center natin sa loob ng 64x64 tile
+                
                 goal.setPosition({ (x * 64.f) + 20.f, (y * 64.f) + 20.f });
                 window.draw(goal);
             }
@@ -169,11 +131,10 @@ void PlayEngine::Draw(sf::RenderWindow& window) {
         }
     }
 
-    if (checkWin()) {
-        window.draw(winText);
-    }
+  
 }
-void PlayEngine::reset() {
+void PlayEngine::reset(int levelNum) {
+    currentLevel = levelNum;
     playerX = 1;
     playerY = 1;
     moves = 0;
@@ -185,7 +146,7 @@ void PlayEngine::reset() {
         }
     }
 
-    // I-re-setup ang mga pader/bakod (Kopyahin ang loop mo sa constructor)
+	//set up ng pader or bakod sa paligid ng grid
     for (int i = 0; i < 15; i++) {
         level.setTile(i, 0, 1);    // Taas
         level.setTile(i, 14, 1);   // Ibaba
@@ -193,60 +154,113 @@ void PlayEngine::reset() {
         level.setTile(14, i, 1);   // Kanang
     }
 
-    // 5. I-set up ulit ang objects at player
-    level.setTile(4, 4, 3);
-	level.setTile(playerX, playerY, 2); // Player naman ay ID 2
-    level.setTile(2, 6, 1);
-    level.setTile(2, 8, 1);
-    level.setTile(2, 10, 1);
-    level.setTile(3, 3, 1);
-    level.setTile(3, 4, 1);
-    level.setTile(3, 5, 1);
-    level.setTile(3, 6, 1);
-    level.setTile(3, 7, 1);
-    level.setTile(3, 8, 1);
-    level.setTile(3, 9, 1);
-    level.setTile(3, 10, 1);
-    level.setTile(3, 11, 1);
-    level.setTile(3, 12, 1);
-    level.setTile(11, 13, 1);
-    level.setTile(7, 7, 1);
-    level.setTile(8, 7, 1);
-    level.setTile(9, 7, 1);
-    level.setTile(10, 7, 1);
-    level.setTile(11, 7, 1);
-    level.setTile(12, 7, 1);
-    level.setTile(13, 7, 1);
-    level.setTile(6, 4, 1);
-    level.setTile(5, 4, 1);
-    level.setTile(7, 4, 1);
-    level.setTile(8, 4, 1);
-    level.setTile(9, 4, 1);
-    level.setTile(10, 4, 1);
-    level.setTile(11, 4, 1);
-    level.setTile(6, 10, 1);
-    level.setTile(7, 10, 1);
-    level.setTile(8, 10, 1);
-    level.setTile(9, 10, 1);
-    level.setTile(10, 10, 1);
-    level.setTile(11, 10, 1);
-    level.setTile(11, 8, 1);
-    level.setTile(10, 5, 1);
-    level.setTile(11, 12, 1);
-    //level.setTile(12, 12, 4);
-    level.setTile(12, 10, 4);
-    playerX = 1;
-    playerY = 1;
-    // Magdagdag pa ng ibang pader o tiles dito kung meron ka sa constructor
+    //   objects at player
+    if (currentLevel == 1) {
+        playerX = 1;
+        playerY = 1;
+        level.setTile(playerX, playerY, 2); // Player naman ay ID 2
+
+        level.setTile(4, 4, 3); //box
+        level.setTile(12, 10, 4); //goal
+
+        level.setTile(2, 6, 1);
+        level.setTile(2, 8, 1);
+        level.setTile(2, 10, 1);
+        level.setTile(3, 3, 1);
+        level.setTile(3, 4, 1);
+        level.setTile(3, 5, 1);
+        level.setTile(3, 6, 1);
+        level.setTile(3, 7, 1);
+        level.setTile(3, 8, 1);
+        level.setTile(3, 9, 1);
+        level.setTile(3, 10, 1);
+        level.setTile(3, 11, 1);
+        level.setTile(3, 12, 1);
+        level.setTile(11, 13, 1);
+        level.setTile(7, 7, 1);
+        level.setTile(8, 7, 1);
+        level.setTile(9, 7, 1);
+        level.setTile(10, 7, 1);
+        level.setTile(11, 7, 1);
+        level.setTile(12, 7, 1);
+        level.setTile(13, 7, 1);
+        level.setTile(6, 4, 1);
+        level.setTile(5, 4, 1);
+        level.setTile(7, 4, 1);
+        level.setTile(8, 4, 1);
+        level.setTile(9, 4, 1);
+        level.setTile(10, 4, 1);
+        level.setTile(11, 4, 1);
+        level.setTile(6, 10, 1);
+        level.setTile(7, 10, 1);
+        level.setTile(8, 10, 1);
+        level.setTile(9, 10, 1);
+        level.setTile(10, 10, 1);
+        level.setTile(11, 10, 1);
+        level.setTile(11, 8, 1);
+        level.setTile(10, 5, 1);
+        level.setTile(11, 12, 1);
+        //level.setTile(12, 12, 4);
+       
+    }
+    else if (currentLevel == 2) {
+		// new level for level 2, same format lang pero iba ang layout ng walls, box, at goal
+        playerX = 2; playerY = 2;
+        level.setTile(playerX, playerY, 2);
+        level.setTile(2, 12, 3); //box
+		level.setTile(12, 1, 4); //goal
+      
+
+        level.setTile(1, 2, 1);
+        level.setTile(3, 2, 1);
+        level.setTile(4, 2, 1);
+        level.setTile(5, 2, 1);
+        level.setTile(6, 3, 1);
+        level.setTile(7, 4, 1);
+        level.setTile(8, 5, 1);
+        level.setTile(9, 6, 1);
+        level.setTile(10, 7, 1);
+        level.setTile(11, 8, 1);
+        level.setTile(13, 13, 1);
+        level.setTile(13, 12, 1);
+        level.setTile(13, 11, 1);
+        level.setTile(12, 13, 1);
+        level.setTile(12, 12, 1);
+        level.setTile(12, 11, 1);
+        level.setTile(11, 13, 1);
+        level.setTile(11, 12, 1);
+        level.setTile(11, 11, 1);
+        level.setTile(10, 13, 1);
+        level.setTile(10, 12, 1);
+        level.setTile(10, 11, 1);
+        level.setTile(2, 11, 1);
+        level.setTile(4, 11, 1);
+        level.setTile(4, 12, 1);
+        level.setTile(4, 13, 1);
+        level.setTile(9, 11, 1);
+        level.setTile(8, 10, 1);
+        level.setTile(7, 9 ,1);
+        level.setTile(10, 3, 1);
+        level.setTile(11, 3, 1);
+        level.setTile(12, 3, 1);
+
+       // level.setTile(2, 2, 1);
+        //level.setTile(2, 3, 1);
+       // level.setTile(2, 4, 1);
+       /// level.setTile(2, 5, 1);
+       // level.setTile(3, 3, 1);
+        //level.setTile(4, 4, 1);
+	}
 
 }
 bool PlayEngine::checkWin() {
-    int currentTile = level.getTile(12, 10);
-    
-    std::cout << "Current Tile at (12,10) is: " << currentTile << std::endl;
-
-    if (currentTile == 3) { // 3 ang ID ng Box
-        return true;
+    if (currentLevel == 1) {
+        int tile = level.getTile(12, 10);
+        return (tile == 3); 
+    }
+    else if (currentLevel == 2) {
+        int tile = level.getTile(12, 1);
+        return (tile == 3);
     }
     return false;
 }
