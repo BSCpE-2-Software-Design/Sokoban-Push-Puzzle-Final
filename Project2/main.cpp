@@ -20,13 +20,13 @@ int main() {
     bool winTriggered = false;
 
     while (window.isOpen()) {
-        // 1. EVENT LOOP
+       
         while (const std::optional event = window.pollEvent()) {
             if (event->is<sf::Event::Closed>()) {
                 window.close();
             }
 
-            // KONTROL PARA SA PLAYING STATE
+            
             if (state == GameState::PLAYING) {
                 if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                     if (keyPressed->code == sf::Keyboard::Key::W) game.processMove(0, -1);
@@ -39,7 +39,7 @@ int main() {
                     }
                 }
             }
-            // KONTROL PARA SA VICTORY STATE
+            
             else if (state == GameState::VICTORY) {
                 if (const auto* keyPressed = event->getIf<sf::Event::KeyPressed>()) {
                     if (keyPressed->code == sf::Keyboard::Key::Escape) {
@@ -51,7 +51,7 @@ int main() {
             }
         } 
 
-        // 2. GAME LOGIC & WIN DETECTION (Nasa labas ng event loop)
+        
         if (state == GameState::PLAYING && game.checkWin() && !winTriggered) {
             winTriggered = true;
             state = GameState::VICTORY;
@@ -73,7 +73,7 @@ int main() {
                         if (winEvent->is<sf::Event::Closed>()) {
                             winWindow.close();
 
-                            // PAGSARA NG WINDOW: Lipat na sa Level 2!
+                            
                             state = GameState::PLAYING;
                             game.reset(2);
                             winTriggered = false;
@@ -87,7 +87,7 @@ int main() {
             }
         }
 
-        // 3. RENDERING 
+        
         window.clear();
         game.Draw(window);
         window.display();

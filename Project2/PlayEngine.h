@@ -19,9 +19,9 @@ public:
     PlayEngine(SFML_AssetManager* assetPtr);
     void processMove(int dx, int dy);
     void handleInput(const sf::Event& event);
-    void Draw(sf::RenderWindow& window);
     void reset(int levelNum);
     bool checkWin();
+    void Draw(sf::RenderWindow& window);
 };
 
 #endif

@@ -5,7 +5,8 @@
 PlayEngine::PlayEngine(SFML_AssetManager* assetPtr)
     : level(15,15), assets(assetPtr), moves(0), winText(font)
 { 
-
+    reset(1);
+    
     if (font.openFromFile("arial.ttf")) {
         winText.setString("WINNER!!!");
         winText.setFont(font);
@@ -13,9 +14,6 @@ PlayEngine::PlayEngine(SFML_AssetManager* assetPtr)
         winText.setFillColor(sf::Color::Yellow);
         winText.setPosition({ 250.f, 400.f });
     }
-   
-
-    reset(1);
 
 } 
 
@@ -73,19 +71,19 @@ void PlayEngine::processMove(int dx, int dy) {
             level.setTile(playerX, playerY, 4);
         }
         else {
-            level.setTile(playerX, playerY, 0); // Gawing malinis na sahig kung hindi naman goal
+            level.setTile(playerX, playerY, 0); 
         }
     }
 
    
     playerX = nextX;
     playerY = nextY;
-    level.setTile(playerX, playerY, 2); // Ilagay si Player (ID 2) sa bagong tile data
+    level.setTile(playerX, playerY, 2); 
 }
 
 
 void PlayEngine::handleInput(const sf::Event& event) {
-    // I-check kung KeyPressed ang event
+   
     if (const auto* keyPressed = event.getIf<sf::Event::KeyPressed>()) {
         if (keyPressed->code == sf::Keyboard::Key::W) processMove(0, -1);
         if (keyPressed->code == sf::Keyboard::Key::S) processMove(0, 1);
